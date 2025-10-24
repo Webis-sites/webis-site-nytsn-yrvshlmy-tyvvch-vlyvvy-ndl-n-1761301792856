@@ -7,7 +7,7 @@ import { useInView } from 'framer-motion';
 const TestimonialsSection: React.FC = () => {
   const controls = useAnimation();
   const ref = React.useRef(null);
-  const inView = useInView(ref, { threshold: 0.1 });
+  const inView = useInView(ref);
 
   useEffect(() => {
     if (inView) {
@@ -95,18 +95,11 @@ const TestimonialsSection: React.FC = () => {
                   <img src={testimonial.avatar} alt={testimonial.name} className="w-full h-full object-cover" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-lg">{testimonial.name}</h4>
+                  <h4 className="font-bold text-lg text-gray-800">{testimonial.name}</h4>
                   <p className="text-gray-600 text-sm">{testimonial.role}</p>
                 </div>
               </div>
-              <p className="text-gray-700 leading-relaxed">{testimonial.content}</p>
-              <div className="mt-4 flex">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <svg key={star} className="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 24 24">
-                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                  </svg>
-                ))}
-              </div>
+              <p className="text-gray-700 text-right leading-relaxed">{testimonial.content}</p>
             </motion.div>
           ))}
         </motion.div>
