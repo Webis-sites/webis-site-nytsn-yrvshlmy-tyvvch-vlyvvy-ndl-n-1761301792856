@@ -1,234 +1,119 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaChevronRight, FaChevronLeft, FaQuoteRight } from 'react-icons/fa';
-import Image from 'next/image';
-
-interface Testimonial {
-  id: number;
-  name: string;
-  propertyType: string;
-  quote: string;
-  avatar: string;
-}
-
-const testimonials: Testimonial[] = [
-  {
-    id: 1,
-    name: 'דניאל כהן',
-    propertyType: 'רכישת דירה בתל אביב',
-    quote: 'ניצן ליווה אותנו בתהליך רכישת הדירה הראשונה שלנו בצורה מקצועית ואישית. הוא הבין בדיוק מה אנחנו מחפשים והצליח למצוא לנו את הדירה המושלמת במחיר שהתאים לתקציב שלנו.',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'
-  },
-  {
-    id: 2,
-    name: 'מיכל לוי',
-    propertyType: 'השקעה בנדל״ן בארה״ב',
-    quote: 'הידע והניסיון של ניצן בשוק הנדל״ן האמריקאי היה קריטי להצלחת ההשקעה שלי. הוא הציג בפני הזדמנויות שלא הייתי מוצאת בעצמי ודאג לכל הפרטים הקטנים לאורך כל הדרך.',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'
-  },
-  {
-    id: 3,
-    name: 'אלון שפירא',
-    propertyType: 'השכרת דירה ברמת גן',
-    quote: 'ניצן עזר לי למצוא שוכר לדירה שלי בתוך שבוע! הוא טיפל בכל התהליך מא׳ עד ת׳, כולל חוזה מסודר וביטחונות. אני ממליץ עליו בחום לכל מי שמחפש מתווך אמין ומקצועי.',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'
-  },
-  {
-    id: 4,
-    name: 'רונית אברהם',
-    propertyType: 'מכירת פנטהאוז בהרצליה',
-    quote: 'ניצן הצליח למכור את הדירה שלנו במחיר גבוה בהרבה ממה שציפינו. האסטרטגיה השיווקית שלו והיכולת שלו להביא קונים רציניים הייתה מרשימה. תודה על השירות המעולה!',
-    avatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'
-  }
-];
+import React, { useEffect } from 'react';
+import { motion, useAnimation } from 'framer-motion';
+import { useInView } from 'react-motion';
 
 const TestimonialsSection: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const testimonialsRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const controls = useAnimation();
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { threshold: 0.1 });
 
   useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkIfMobile();
-    window.addEventListener('resize', checkIfMobile);
-    
-    return () => {
-      window.removeEventListener('resize', checkIfMobile);
-    };
-  }, []);
-
-  const nextTestimonial = () => {
-    setDirection(1);
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-  };
-
-  const prevTestimonial = () => {
-    setDirection(-1);
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length);
-  };
-
-  const handleDotClick = (index: number) => {
-    setDirection(index > currentIndex ? 1 : -1);
-    setCurrentIndex(index);
-  };
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.touches[0].clientX);
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStart === null) return;
-    
-    const touchEnd = e.changedTouches[0].clientX;
-    const diff = touchStart - touchEnd;
-    
-    // If swipe is significant enough (more than 50px)
-    if (Math.abs(diff) > 50) {
-      if (diff > 0) {
-        // Swiped right to left in RTL means previous
-        prevTestimonial();
-      } else {
-        // Swiped left to right in RTL means next
-        nextTestimonial();
-      }
+    if (inView) {
+      controls.start('visible');
     }
-    
-    setTouchStart(null);
-  };
+  }, [controls, inView]);
 
-  const cardVariants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? -300 : 300,
-      opacity: 0,
-      scale: 0.9,
-    }),
-    center: {
-      x: 0,
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
       opacity: 1,
-      scale: 1,
       transition: {
-        duration: 0.5,
-        type: "spring",
-        stiffness: 300,
-        damping: 30
-      }
+        staggerChildren: 0.2,
+      },
     },
-    exit: (direction: number) => ({
-      x: direction > 0 ? 300 : -300,
-      opacity: 0,
-      scale: 0.9,
-      transition: {
-        duration: 0.3
-      }
-    })
   };
 
-  const getVisibleTestimonials = () => {
-    if (isMobile) {
-      return [testimonials[currentIndex]];
-    } else {
-      // Show 3 testimonials on desktop
-      const indices = [
-        currentIndex,
-        (currentIndex + 1) % testimonials.length,
-        (currentIndex + 2) % testimonials.length
-      ];
-      return indices.map(index => testimonials[index]);
-    }
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: 'spring',
+        stiffness: 100,
+        damping: 15,
+      },
+    },
   };
+
+  const testimonials = [
+    {
+      id: 1,
+      name: 'דניאל כהן',
+      role: 'רוכש דירה בתל אביב',
+      content: 'ניצן ליווה אותנו בתהליך רכישת הדירה הראשונה שלנו. המקצועיות והסבלנות שלו עשו את כל ההבדל. הוא היה זמין עבורנו בכל שעה והפך תהליך מלחיץ לחוויה נעימה.',
+      avatar: '/images/testimonial-1.jpg',
+    },
+    {
+      id: 2,
+      name: 'מיכל לוי',
+      role: 'משקיעה בנדל"ן',
+      content: 'כמשקיעה בנדל"ן, אני מחפשת אנשי מקצוע אמינים ומקצועיים. ניצן הוא בדיוק כזה. הוא הבין בדיוק את הצרכים שלי והציע נכסים שהתאימו בדיוק למה שחיפשתי. ממליצה בחום!',
+      avatar: '/images/testimonial-2.jpg',
+    },
+    {
+      id: 3,
+      name: 'אלון ברק',
+      role: 'משקיע בנדל"ן בארה"ב',
+      content: 'ניצן ליווה אותי ברכישת נכס ראשון בארה"ב. למרות המרחק והמורכבות, הוא הצליח להפוך את התהליך לפשוט ובטוח. הידע והקשרים שלו בשוק האמריקאי הם נכס אמיתי.',
+      avatar: '/images/testimonial-3.jpg',
+    },
+  ];
 
   return (
-    <section id="testimonials-section" className="py-16 bg-gray-50" dir="rtl">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-800 mb-2">לקוחות מספרים</h2>
-          <div className="w-20 h-1 bg-[#ffae00] mx-auto"></div>
-          <p className="text-[#8c8c8c] mt-4 text-lg">מה אומרים עלינו לקוחות שכבר מצאו את הנכס המושלם</p>
-        </div>
-
-        <div 
-          className="relative max-w-6xl mx-auto"
-          ref={testimonialsRef}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
+    <section id="testimonials" dir="rtl" className="py-16 md:py-24 bg-gray-50">
+      <div className="container mx-auto px-4 md:px-8">
+        <motion.div
+          ref={ref}
+          variants={containerVariants}
+          initial="hidden"
+          animate={controls}
+          className="text-center mb-12"
         >
-          <div className="overflow-hidden px-4">
-            <div className={`flex ${isMobile ? 'justify-center' : 'justify-between'} gap-6`}>
-              <AnimatePresence initial={false} custom={direction} mode="wait">
-                {getVisibleTestimonials().map((testimonial) => (
-                  <motion.div
-                    key={testimonial.id}
-                    custom={direction}
-                    variants={cardVariants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    className="bg-white rounded-lg shadow-lg p-6 flex-1 max-w-md mx-auto relative"
-                  >
-                    <div className="absolute top-6 right-6 text-[#ffae00] opacity-20">
-                      <FaQuoteRight size={40} />
-                    </div>
-                    <div className="flex flex-col items-center text-right">
-                      <div className="w-20 h-20 rounded-full overflow-hidden mb-4 border-2 border-[#ffae00]">
-                        <Image 
-                          src={testimonial.avatar} 
-                          alt={testimonial.name} 
-                          width={80} 
-                          height={80}
-                          className="object-cover w-full h-full"
-                        />
-                      </div>
-                      <h3 className="text-xl font-bold text-gray-800">{testimonial.name}</h3>
-                      <p className="text-[#8c8c8c] text-sm mb-4">{testimonial.propertyType}</p>
-                      <p className="text-gray-600 leading-relaxed text-right">{testimonial.quote}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-          </div>
+          <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
+            מה <span className="text-[#ffae00]">הלקוחות שלנו</span> אומרים
+          </motion.h2>
+          <motion.p variants={itemVariants} className="text-lg text-gray-600 max-w-3xl mx-auto">
+            אנחנו גאים להעניק שירות מקצועי ואישי לכל לקוח ולקוחה. הנה כמה מהחוויות של הלקוחות שלנו.
+          </motion.p>
+        </motion.div>
 
-          {/* Navigation Arrows */}
-          <div className="flex justify-between items-center mt-8">
-            <button 
-              onClick={nextTestimonial}
-              className="bg-white text-[#8c8c8c] hover:text-[#ffae00] p-3 rounded-full shadow-md transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#ffae00] focus:ring-opacity-50"
-              aria-label="הבא"
+        <motion.div 
+          variants={containerVariants}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          {testimonials.map((testimonial) => (
+            <motion.div
+              key={testimonial.id}
+              variants={itemVariants}
+              className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
-              <FaChevronLeft size={20} />
-            </button>
-            
-            {/* Dots */}
-            <div className="flex space-x-2 rtl:space-x-reverse">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleDotClick(index)}
-                  className={`w-3 h-3 rounded-full transition-colors duration-300 focus:outline-none ${
-                    currentIndex === index ? 'bg-[#ffae00]' : 'bg-[#8c8c8c] bg-opacity-30'
-                  }`}
-                  aria-label={`עבור לעדות ${index + 1}`}
-                  aria-current={currentIndex === index ? 'true' : 'false'}
-                />
-              ))}
-            </div>
-            
-            <button 
-              onClick={prevTestimonial}
-              className="bg-white text-[#8c8c8c] hover:text-[#ffae00] p-3 rounded-full shadow-md transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#ffae00] focus:ring-opacity-50"
-              aria-label="הקודם"
-            >
-              <FaChevronRight size={20} />
-            </button>
-          </div>
-        </div>
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
+                  <img 
+                    src={testimonial.avatar} 
+                    alt={testimonial.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <h4 className="font-bold text-gray-800">{testimonial.name}</h4>
+                  <p className="text-sm text-gray-600">{testimonial.role}</p>
+                </div>
+              </div>
+              <p className="text-gray-700 leading-relaxed">{testimonial.content}</p>
+              <div className="mt-4 flex text-[#ffae00]">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
