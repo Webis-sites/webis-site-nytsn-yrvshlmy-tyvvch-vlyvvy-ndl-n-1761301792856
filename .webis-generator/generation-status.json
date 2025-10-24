@@ -1,11 +1,90 @@
 {
-  "timestamp": "2025-10-24T11:24:21.748Z",
+  "timestamp": "2025-10-24T11:25:12.137Z",
   "status": {
-    "totalComponents": 0,
+    "totalComponents": 13,
     "completedComponents": 0,
     "failedComponents": 0,
     "progress": 0
   },
-  "components": [],
+  "components": [
+    {
+      "name": "Layout",
+      "type": "layout",
+      "status": "pending",
+      "description": "Root layout component with metadata and global styles"
+    },
+    {
+      "name": "Navbar",
+      "type": "navigation",
+      "status": "pending",
+      "description": "RTL navigation bar with the business name and links to page sections"
+    },
+    {
+      "name": "HeroSection",
+      "type": "hero",
+      "status": "pending",
+      "description": "Bold, attention-grabbing hero section with headline and CTA"
+    },
+    {
+      "name": "AboutSection",
+      "type": "about",
+      "status": "pending",
+      "description": "Professional profile section highlighting expertise and experience"
+    },
+    {
+      "name": "ServicesSection",
+      "type": "services",
+      "status": "pending",
+      "description": "Detailed showcase of real estate services offered"
+    },
+    {
+      "name": "PortfolioSection",
+      "type": "portfolio",
+      "status": "pending",
+      "description": "Gallery of property listings and successful deals"
+    },
+    {
+      "name": "ProcessSection",
+      "type": "process",
+      "status": "pending",
+      "description": "Step-by-step visualization of the client journey"
+    },
+    {
+      "name": "MarketInsightsSection",
+      "type": "insights",
+      "status": "pending",
+      "description": "Real estate market trends and investment insights"
+    },
+    {
+      "name": "FAQSection",
+      "type": "faq",
+      "status": "pending",
+      "description": "Accordion-style frequently asked questions"
+    },
+    {
+      "name": "TestimonialsSection",
+      "type": "testimonials",
+      "status": "pending",
+      "description": "Client success stories and testimonials"
+    },
+    {
+      "name": "CTASection",
+      "type": "cta",
+      "status": "pending",
+      "description": "Compelling call-to-action section with contact form"
+    },
+    {
+      "name": "ContactSection",
+      "type": "contact",
+      "status": "pending",
+      "description": "Contact information and location details"
+    },
+    {
+      "name": "Footer",
+      "type": "footer",
+      "status": "pending",
+      "description": "Site footer with links, copyright and additional information"
+    }
+  ],
   "repoName": "webis-site-nytsn-yrvshlmy-tyvvch-vlyvvy-ndl-n-1761301792856"
 }
