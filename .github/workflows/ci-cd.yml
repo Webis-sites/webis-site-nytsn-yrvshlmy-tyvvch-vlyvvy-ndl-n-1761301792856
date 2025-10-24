@@ -25,7 +25,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Wait for additional commits
-        run: echo "⏱️ Waiting for 2 minutes to ensure no additional commits are coming..."; sleep 120
+        run: echo "⏱️ Waiting for 2 minutes to ensure no additional commits are coming..."; sleep 60
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
