@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import Image from 'next/image';
@@ -31,7 +31,8 @@ const testimonials = [
 
 const TestimonialsSection: React.FC = () => {
   const controls = useAnimation();
-  const { ref, inView } = useInView({
+  const ref = useRef(null);
+  const inView = useInView(ref, {
     triggerOnce: true,
     threshold: 0.1,
   });
@@ -95,46 +96,9 @@ const TestimonialsSection: React.FC = () => {
               variants={itemVariants}
               className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300"
             >
-              <div className="flex items-center mb-4">
-                <div className="relative w-14 h-14 rounded-full overflow-hidden mr-4">
-                  <Image
-                    src={testimonial.avatar}
-                    alt={testimonial.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div>
-                  <h4 className="font-bold text-lg text-gray-800">{testimonial.name}</h4>
-                  <p className="text-gray-600">{testimonial.role}</p>
-                </div>
-              </div>
-              <p className="text-gray-700 leading-relaxed text-right">{testimonial.content}</p>
-              <div className="mt-4 flex justify-start">
-                {[...Array(5)].map((_, i) => (
-                  <svg
-                    key={i}
-                    className="w-5 h-5 text-[#ffae00] fill-current"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                  </svg>
-                ))}
-              </div>
+              <div className="flex items-center mb-
             </motion.div>
           ))}
-        </motion.div>
-
-        <motion.div
-          variants={itemVariants}
-          className="text-center mt-12"
-        >
-          <a
-            href="#contact"
-            className="inline-block bg-[#ffae00] text-white font-bold py-3 px-8 rounded-full hover:bg-[#e09900] transition-colors duration-300"
-          >
-            דברו איתנו עוד היום
-          </a>
         </motion.div>
       </div>
     </section>
