@@ -10,6 +10,7 @@ import MarketInsightsSection from '@/components/MarketInsightsSection';
 import FAQSection from '@/components/FAQSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import CTASection from '@/components/CTASection';
+import ContactSection from '@/components/ContactSection';
 
 export default function HomePage() {
   return (
@@ -26,6 +27,7 @@ export default function HomePage() {
         <FAQSection />
         <TestimonialsSection />
         <CTASection />
+        <ContactSection />
       </main>
     </>
   );
