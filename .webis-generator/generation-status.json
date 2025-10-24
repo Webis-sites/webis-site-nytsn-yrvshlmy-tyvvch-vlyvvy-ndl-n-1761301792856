@@ -1,8 +1,11 @@
 {
-  "projectName": "ניצן-ירושלמי-תיווך-וליווי-נדל״ן-5029",
-  "businessName": "ניצן ירושלמי - תיווך וליווי נדל״ן",
-  "created": "2025-10-24T11:23:52.223Z",
-  "status": "initialized",
-  "progress": 0,
-  "components": []
+  "timestamp": "2025-10-24T11:24:21.748Z",
+  "status": {
+    "totalComponents": 0,
+    "completedComponents": 0,
+    "failedComponents": 0,
+    "progress": 0
+  },
+  "components": [],
+  "repoName": "webis-site-nytsn-yrvshlmy-tyvvch-vlyvvy-ndl-n-1761301792856"
 }
