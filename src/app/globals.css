@@ -11,6 +11,9 @@
       --secondary-color: #ffae00;
     
   --font-assistant: var(--font-assistant);
+
+  --font-size-base: 1rem;
+  --rtl-direction: rtl;
 }
 
     html {
